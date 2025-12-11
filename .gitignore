@@ -8,3 +8,8 @@ build/
 # Virtual environment (if you use one)
 venv/
 .env/
+
+# Remove test files
+Weekly_Class_Schedules.docx
+schedule.txt
+days/
