@@ -6,7 +6,7 @@ import os
 import shutil
 import comtypes.client
 from docx import Document
-from test17 import extract_kw_numbers
+from _17_Create_WordFile import extract_kw_numbers
 THEME_FILE = "updated_themes.json"
 SCHEDULE_DOC = "Weekly_Class_Schedules.docx"
 

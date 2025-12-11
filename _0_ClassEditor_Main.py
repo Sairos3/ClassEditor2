@@ -3,21 +3,21 @@ import tkinter as tk
 from _1_Select_PDF import main as step1_main
 from _2_ExtractDates import step2_main
 from _3_SpecifyClass_HardCoded import remove_teams_and_plus_lines
-from test4 import add_newline_after_uhr
-from test5 import remove_word_from_file
-from test6 import remove_lines_with_keywords
-from test7 import clean_schedule
-from test8 import merge_LEK_with_next_line
-from test9 import merge_teacher_names
-from test10 import add_timestamp_to_schedule
-from test11Wdays import extract_schedules
-from test12 import process_all_files_in_days_folder
-from test13 import merge_class_durations
-from test14 import remove_mittagspause_lines
-from test15 import calculate_day_hours_in_folder
-from test16_fix_praxis import remove_zero_duration_lines
-from test17 import create_schedule_document
-from testGUI_New import ThemeEditorApp
+from _4_Transform_txtControl import add_newline_after_uhr
+from _5_Remove_Uhr import remove_word_from_file
+from _6_Remove_SpecificLines import remove_lines_with_keywords
+from _7_Clean_Breaks import clean_schedule
+from _8_Transform_MergeLines import merge_LEK_with_next_line
+from _9_Transform_TeacherNames import merge_teacher_names
+from _10_Add_TimeControl import add_timestamp_to_schedule
+from _11_Extract_WeekDays import extract_schedules
+from _12_Process_TimeCalculations import process_all_files_in_days_folder
+from _13_Transform_Time import merge_class_durations
+from _14_Remove_Breaks import remove_mittagspause_lines
+from _15_Limit_MinMaxHours import calculate_day_hours_in_folder
+from _16_Remove_0Timestamps import remove_zero_duration_lines
+from _17_Create_WordFile import create_schedule_document
+from _01_Create_GUI import ThemeEditorApp
 
 def process_schedule_steps():
     steps = [
