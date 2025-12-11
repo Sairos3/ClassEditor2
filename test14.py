@@ -8,7 +8,7 @@ def remove_mittagspause_lines(folder_path):
             with open(file_path, 'r') as file:
                 lines = file.readlines()
 
-            filtered_lines = [line for line in lines if 'Mittagspause' not in line]
+            filtered_lines = [line for line in lines if 'Mittagspause' not in line and 'Lernzeit m. Lernzeitbegleitung' not in line]
 
             with open(file_path, 'w') as file:
                 file.writelines(filtered_lines)

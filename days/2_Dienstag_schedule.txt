@@ -1,0 +1,4 @@
+Class: PV-T1 / Luttmann, Klaus | Duration: 3
+Class: PV-T1 / Brinkmann, Matthias | Duration: 2
+Class: Praxisunterricht | Duration: 1
+Class: PV-T1 / Heckenkamp, Jörg | Duration: 2
