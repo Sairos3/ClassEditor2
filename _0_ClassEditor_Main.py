@@ -1,8 +1,8 @@
 import os
 import tkinter as tk
-from test1 import main as step1_main
-from test2 import step2_main
-from test3 import remove_teams_and_plus_lines
+from _1_Select_PDF import main as step1_main
+from _2_ExtractDates import step2_main
+from _3_SpecifyClass_HardCoded import remove_teams_and_plus_lines
 from test4 import add_newline_after_uhr
 from test5 import remove_word_from_file
 from test6 import remove_lines_with_keywords
