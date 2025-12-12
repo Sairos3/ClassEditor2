@@ -21,14 +21,9 @@ def extract_kw_numbers(schedule_text):
         return []
 
 def get_word_username():
-    """
-    Retrieves the Microsoft Office / Word username intelligently.
-    - Win10 classic Office: uses Word COM or registry
-    - Win11 Microsoft 365: uses modern identity keys
-    - Falls back to Windows login if nothing else found
-    """
     username = None
 
+    # --- 1. Try Word COM (works on classic Office installs)
     try:
         word_app = win32com.client.Dispatch("Word.Application")
         word_app.Visible = False
@@ -37,6 +32,7 @@ def get_word_username():
     except Exception:
         username = None
 
+    # --- 2. Try old Office registry keys (Office 2010–2016 style)
     if not username or username.startswith("User"):
         for version in ["16.0", "15.0", "14.0"]:
             try:
@@ -49,30 +45,60 @@ def get_word_username():
             except FileNotFoundError:
                 continue
 
+    # --- 3. Try IdentityCRL (sometimes works on Win10)
     if not username or username.startswith("User"):
         try:
             identity_key = r"SOFTWARE\Microsoft\IdentityCRL\UserExtendedProperties"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, identity_key) as parent_key:
                 subkey_name = winreg.EnumKey(parent_key, 0)
                 with winreg.OpenKey(parent_key, subkey_name) as subkey:
-                    display_name, _ = winreg.QueryValueEx(subkey, "DisplayName")
-                    if display_name and not display_name.startswith("User"):
-                        username = display_name
+                    # Try DisplayName OR FriendlyName
+                    for field in ["DisplayName", "FriendlyName"]:
+                        try:
+                            name, _ = winreg.QueryValueEx(subkey, field)
+                            if name and not name.startswith("User"):
+                                username = name
+                                break
+                        except FileNotFoundError:
+                            continue
         except Exception:
             pass
 
+    # --- 4. MODERN WINDOWS 11 / MICROSOFT 365 FIX:
+    # Loop through ALL identity keys and read DisplayName or FriendlyName
     if not username or username.startswith("User"):
         try:
             key_path = r"SOFTWARE\Microsoft\Office\16.0\Common\Identity\Identities"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path) as identities:
-                first_user = winreg.EnumKey(identities, 0)
-                with winreg.OpenKey(identities, first_user) as user_key:
-                    account_name, _ = winreg.QueryValueEx(user_key, "DisplayName")
-                    if account_name and not account_name.startswith("User"):
-                        username = account_name
+
+                i = 0
+                while True:
+                    try:
+                        subkey = winreg.EnumKey(identities, i)
+                        with winreg.OpenKey(identities, subkey) as user_key:
+
+                            # Try real name fields
+                            for field in ["DisplayName", "FriendlyName", "AccountName"]:
+                                try:
+                                    value, _ = winreg.QueryValueEx(user_key, field)
+                                    if value and not value.startswith("User"):
+                                        username = value
+                                        break
+                                except FileNotFoundError:
+                                    continue
+
+                            if username and not username.startswith("User"):
+                                break
+
+                        i += 1
+
+                    except OSError:
+                        break
+
         except Exception:
             pass
 
+    # --- 5. Final fallback: machine login name
     if not username or username.startswith("User"):
         try:
             username = os.getlogin()
