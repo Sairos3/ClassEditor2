@@ -66,6 +66,10 @@ class ThemeEditorApp:
         self.root = root
         self.root.title("ClassEditor")
         self.root.geometry("600x400")
+
+        self.input_schedule_file = "schedule.txt"
+        self.output_doc = "Weekly_Class_Schedules.docx"
+
         self.updated_themes = load_themes()
         self.class_info = []
         self.create_widgets()
@@ -202,8 +206,26 @@ class ThemeEditorApp:
     
     def toggle_signature(self):
         self.include_signature = not self.include_signature
-        status = "included" if self.include_signature else "removed"
-        self.status_label.config(text=f"Signature section will be {status}.", fg="green")
+
+        from _17_Create_WordFile import create_schedule_document
+
+        # 1. Recreate document with or without signature
+        create_schedule_document(
+            input_file=self.input_schedule_file,
+            output_file=self.output_doc,
+            include_signature=self.include_signature
+        )
+
+        # 2. Re-apply edited themes
+        self.updated_themes = load_themes()
+        if self.updated_themes:
+            update_themes_in_docx(self.output_doc, self.updated_themes)
+
+        status = "removed" if not self.include_signature else "included"
+        self.status_label.config(
+            text=f"Signature {status} in Word document.",
+            fg="green"
+        )
 
     def save_updated_document(self):
         self.updated_themes = load_themes()
