@@ -1,4 +1,5 @@
 import os
+import re
 
 def time_to_minutes(time_str):
     return int(time_str[:2]) * 60 + int(time_str[3:5])
@@ -16,7 +17,12 @@ def process_schedule(input_file, output_file):
             class_name = lines[i].strip()
             time_range = lines[i + 1].strip()
 
-            start_time, end_time = time_range.split('-')
+            match = re.search(r'(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})', time_range)
+            if not match:
+                continue
+
+            start_time, end_time = match.groups()
+
             duration_minutes = time_to_minutes(end_time) - time_to_minutes(start_time)
             duration_str = minutes_to_hm(duration_minutes)
 

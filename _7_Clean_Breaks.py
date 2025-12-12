@@ -6,7 +6,7 @@ def clean_schedule(input_file, output_file):
             schedule_text = file.read()
 
         cleaned_text = re.sub(
-            r'(Probe-Prüfung|Unterrichtsfrei|Sonderveranstaltung|Praxisunterricht|Mittagspause|Lernzeit m. Lernzeitbegleitung)\d*\s*min?', 
+            r'(Teilnehmende|Probe-Prüfung|Unterrichtsfrei|Sonderveranstaltung|Praxisunterricht|Mittagspause|Lernzeit m. Lernzeitbegleitung)\d*\s*min?', 
             r'\1', 
             schedule_text
         )

@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from _1_Select_PDF import main as step1_main
 from _2_ExtractDates import step2_main
-from _3_SpecifyClass_HardCoded import remove_teams_and_plus_lines
+from _3_SpecifyClass_AutoDetect import remove_teams_and_plus_lines
 from _4_Transform_txtControl import add_newline_after_uhr
 from _5_Remove_Uhr import remove_word_from_file
 from _6_Remove_SpecificLines import remove_lines_with_keywords
