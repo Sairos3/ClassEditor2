@@ -7,7 +7,6 @@ def remove_teams_and_plus_lines(input_file, output_file):
 
         keywords = set()
 
-        # 1) AUTO-DETECT class keywords FROM THE Klass LINES
         for line in lines:
             clean = line.replace("\xa0", " ")
 

@@ -66,10 +66,8 @@ class ThemeEditorApp:
         self.root = root
         self.root.title("ClassEditor")
         self.root.geometry("600x400")
-
         self.input_schedule_file = "schedule.txt"
         self.output_doc = "Weekly_Class_Schedules.docx"
-
         self.updated_themes = load_themes()
         self.class_info = []
         self.create_widgets()
@@ -99,37 +97,25 @@ class ThemeEditorApp:
     def create_widgets(self):
         self.class_info_label = tk.Label(self.root, text="Available Class Information:")
         self.class_info_label.pack(pady=5)
-
         self.class_info_listbox = tk.Listbox(self.root, width=70, height=10)
         self.class_info_listbox.pack(pady=5)
-
         self.rename_label = tk.Label(self.root, text="Edit Selected Class:")
         self.rename_label.pack(pady=5)
-
         self.rename_entry = tk.Entry(self.root, width=50)
         self.rename_entry.pack(pady=5)
-
         self.rename_button = tk.Button(self.root, text="Update Selected Classes", command=self.rename_class)
         self.rename_button.pack(pady=5)
-
         self.update_all_button = tk.Button(self.root, text="Update All Classes", command=self.update_all_themes)
         self.update_all_button.pack(pady=5)
-
         button_frame = tk.Frame(self.root)
         button_frame.pack(pady=5)
-
         self.save_button = tk.Button(button_frame, text="Save PDF Document", command=self.save_updated_document)
         self.save_button.pack(side=tk.LEFT, padx=5)
-
         self.signature_checkbox = tk.Checkbutton(button_frame, text="Digital(No Signature)", command=self.toggle_signature)
         self.signature_checkbox.pack(side=tk.LEFT)
-
         self.status_label = tk.Label(self.root, text="", fg="green")
         self.status_label.pack(pady=5)
-
         self.include_signature = True
-
-
 
     def load_class_info(self):
         class_info, message = extract_class_info_from_docx(SCHEDULE_DOC)
@@ -171,18 +157,13 @@ class ThemeEditorApp:
                         self.updated_themes[current_theme] = new_theme_for_instructor
                     else:
                         self.updated_themes[current_theme] = new_theme_prefix
-                    # Update the class_info list
                     self.class_info[i] = (current_day, self.updated_themes[current_theme], current_instructor)
 
             save_themes(self.updated_themes)
-
             self.class_info[selected_index] = (day, new_theme, instructor)
-
             self.refresh_class_info_list()
             self.status_label.config(text=f"Theme '{old_theme}' renamed to '{new_theme}'.", fg="green")
-
             update_themes_in_docx(SCHEDULE_DOC, self.updated_themes)
-
         
     def refresh_class_info_list(self):
         self.class_info_listbox.delete(0, tk.END)
@@ -201,7 +182,6 @@ class ThemeEditorApp:
         
         save_themes(self.updated_themes)
         self.status_label.config(text="All themes have been updated.", fg="green")
-
         update_themes_in_docx(SCHEDULE_DOC, self.updated_themes)
     
     def toggle_signature(self):
@@ -209,14 +189,12 @@ class ThemeEditorApp:
 
         from _17_Create_WordFile import create_schedule_document
 
-        # 1. Recreate document with or without signature
         create_schedule_document(
             input_file=self.input_schedule_file,
             output_file=self.output_doc,
             include_signature=self.include_signature
         )
 
-        # 2. Re-apply edited themes
         self.updated_themes = load_themes()
         if self.updated_themes:
             update_themes_in_docx(self.output_doc, self.updated_themes)
@@ -234,10 +212,8 @@ class ThemeEditorApp:
             messagebox.showwarning("Warning", "No valid themes to save.")
             return
         message = update_themes_in_docx(SCHEDULE_DOC, valid_themes)
-        
         self.save_as_pdf(SCHEDULE_DOC, self.include_signature)
         save_themes(valid_themes)
-
 
     def save_as_pdf(self, doc_path, include_signature):
         try:

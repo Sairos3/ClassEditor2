@@ -35,7 +35,6 @@ def process_schedule_steps():
         func(input_file, output_file)
         os.remove(input_file)
 
-
 def finalize_schedule():
     extract_schedules('schedule10.txt')
     os.remove('schedule10.txt')

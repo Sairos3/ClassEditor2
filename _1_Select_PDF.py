@@ -25,6 +25,5 @@ def main():
     text_content = extract_text_from_pdf(pdf_file)
     with open("schedule.txt", "w", encoding="utf-8") as txt_file:
         txt_file.write(text_content)
-
 if __name__ == "__main__":
     main()

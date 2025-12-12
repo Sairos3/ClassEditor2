@@ -44,5 +44,4 @@ def process_all_files_in_days_folder():
         if filename.endswith('.txt'):
             input_file = os.path.join(input_folder, filename)
             output_file = os.path.join(output_folder, filename)
-
             process_schedule(input_file, output_file)

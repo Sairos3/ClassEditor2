@@ -23,7 +23,6 @@ def extract_kw_numbers(schedule_text):
 def get_word_username():
     username = None
 
-    # --- 1. Try Word COM (works on classic Office installs)
     try:
         word_app = win32com.client.Dispatch("Word.Application")
         word_app.Visible = False
@@ -32,7 +31,6 @@ def get_word_username():
     except Exception:
         username = None
 
-    # --- 2. Try old Office registry keys (Office 2010–2016 style)
     if not username or username.startswith("User"):
         for version in ["16.0", "15.0", "14.0"]:
             try:
@@ -45,7 +43,6 @@ def get_word_username():
             except FileNotFoundError:
                 continue
 
-    # --- 3. Try IdentityCRL (sometimes works on Win10)
     if not username or username.startswith("User"):
         try:
             identity_key = r"SOFTWARE\Microsoft\IdentityCRL\UserExtendedProperties"
@@ -64,8 +61,6 @@ def get_word_username():
         except Exception:
             pass
 
-    # --- 4. MODERN WINDOWS 11 / MICROSOFT 365 FIX:
-    # Loop through ALL identity keys and read DisplayName or FriendlyName
     if not username or username.startswith("User"):
         try:
             key_path = r"SOFTWARE\Microsoft\Office\16.0\Common\Identity\Identities"
@@ -77,7 +72,6 @@ def get_word_username():
                         subkey = winreg.EnumKey(identities, i)
                         with winreg.OpenKey(identities, subkey) as user_key:
 
-                            # Try real name fields
                             for field in ["DisplayName", "FriendlyName", "AccountName"]:
                                 try:
                                     value, _ = winreg.QueryValueEx(user_key, field)
@@ -98,7 +92,6 @@ def get_word_username():
         except Exception:
             pass
 
-    # --- 5. Final fallback: machine login name
     if not username or username.startswith("User"):
         try:
             username = os.getlogin()
