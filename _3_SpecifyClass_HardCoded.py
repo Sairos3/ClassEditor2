@@ -3,7 +3,7 @@ def remove_teams_and_plus_lines(input_file, output_file):
         with open(input_file, 'r', encoding='utf-8') as file:
             filtered_lines = [
                 line for line in file
-                if not any(keyword in line for keyword in ("Teams", "(+", "Extern", "Kfm", "Lager", "Büro"))
+                if not any(keyword in line for keyword in ("Teams", "(+", "Extern", "Kfm", "Lager", "Büro 25"))
             ]
 
         with open(output_file, 'w', encoding='utf-8') as file:
