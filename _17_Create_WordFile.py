@@ -49,7 +49,6 @@ def get_word_username():
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, identity_key) as parent_key:
                 subkey_name = winreg.EnumKey(parent_key, 0)
                 with winreg.OpenKey(parent_key, subkey_name) as subkey:
-                    # Try DisplayName OR FriendlyName
                     for field in ["DisplayName", "FriendlyName"]:
                         try:
                             name, _ = winreg.QueryValueEx(subkey, field)
@@ -65,13 +64,11 @@ def get_word_username():
         try:
             key_path = r"SOFTWARE\Microsoft\Office\16.0\Common\Identity\Identities"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path) as identities:
-
                 i = 0
                 while True:
                     try:
                         subkey = winreg.EnumKey(identities, i)
                         with winreg.OpenKey(identities, subkey) as user_key:
-
                             for field in ["DisplayName", "FriendlyName", "AccountName"]:
                                 try:
                                     value, _ = winreg.QueryValueEx(user_key, field)
@@ -85,10 +82,19 @@ def get_word_username():
                                 break
 
                         i += 1
-
                     except OSError:
                         break
+        except Exception:
+            pass
 
+    if not username or username.startswith("User"):
+        try:
+            wmi = win32com.client.GetObject("winmgmts:")
+            for user in wmi.InstancesOf("Win32_UserAccount"):
+                if user.Name.lower() == os.getlogin().lower():
+                    if user.FullName:
+                        username = user.FullName
+                        break
         except Exception:
             pass
 
