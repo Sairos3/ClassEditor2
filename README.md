@@ -2,4 +2,4 @@
 ((((((Updated Win11 support so Name Surname is automaticly filled. -added 12-12-25))))))
 ((((((Updated Automatic Detection from Klass: to ignore bottom junk lines))))))
 (((((( Download Link for non IT people >>>>>>>> https://raw.githubusercontent.com/Sairos3/ClassEditor2/main/dist/_0_ClassEditor_Main.exe <<<<<<<<))))))
-(((((( Download Link for non IT people Zip file for IBB Laptops >>>>>>>> https://drive.google.com/file/d/1pCLWgJ3Yo2gYULop3diAzDswwdJeLbcU/view?usp=drive_link <<<<<<<<))))))
+(((((( Download Link for non IT people Zip file for IBB Laptops >>>>>>>> https://drive.google.com/file/d/14g-U7RGzsEWk44LIGWmOYAlp5SC2eCNW/view?usp=drive_link <<<<<<<<))))))
